@@ -21,8 +21,7 @@ public class Client {
     private String email;
     private String phone;
 
-    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "client_id")
     private List<InsurancePolicy> insuranceList;
 
