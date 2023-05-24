@@ -1,41 +1,38 @@
-package com.insurance.restApp.entity;
-
-import jakarta.persistence.*;
+package com.insurance.restApp.api.request;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Entity
-@Table(name = "claims")
-public class Claim {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
-    private UUID id;
+public class ClaimRequest {
+    private UUID insuranceId;
+    private UUID clientId;
     private String claimNumber;
     private String description;
     private LocalDate claimDate;
-    private boolean claimStatus;
 
-
-    public Claim(String claimNumber, String description, LocalDate claimDate,
-                 boolean claimStatus) {
+    public ClaimRequest(UUID insuranceId, UUID clientId,
+                        String claimNumber, String description, LocalDate claimDate) {
+        this.insuranceId = insuranceId;
+        this.clientId = clientId;
         this.claimNumber = claimNumber;
         this.description = description;
         this.claimDate = claimDate;
-        this.claimStatus = claimStatus;
     }
 
-    public Claim() {
+    public UUID getInsuranceId() {
+        return insuranceId;
     }
 
-    public UUID getId() {
-        return id;
+    public void setInsuranceId(UUID insuranceId) {
+        this.insuranceId = insuranceId;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public UUID getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(UUID clientId) {
+        this.clientId = clientId;
     }
 
     public String getClaimNumber() {
@@ -61,13 +58,4 @@ public class Claim {
     public void setClaimDate(LocalDate claimDate) {
         this.claimDate = claimDate;
     }
-
-    public boolean isClaimStatus() {
-        return claimStatus;
-    }
-
-    public void setClaimStatus(boolean claimStatus) {
-        this.claimStatus = claimStatus;
-    }
-
 }

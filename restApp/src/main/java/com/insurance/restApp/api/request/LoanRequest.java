@@ -1,31 +1,21 @@
-package com.insurance.restApp.entity;
-
-import jakarta.persistence.*;
+package com.insurance.restApp.api.request;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Entity
-@Table(name = "insurance")
-public class InsurancePolicy {
+public class LoanRequest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "insurance_id")
-    private UUID insuranceId;
+    private UUID clientId;
     private String policyNumber;
     private String type;
-    private int coverageAmount;
-    private int premium;
+    private String coverageAmount;
+    private String premium;
     private LocalDate startDate;
     private LocalDate endDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "insurance_id")
-    private Claim insuraceClaim;
-
-    public InsurancePolicy(String policyNumber, String type,
-                           int coverageAmount, int premium, LocalDate startDate, LocalDate endDate) {
+    public LoanRequest(UUID clientId, String policyNumber, String type, String coverageAmount,
+                       String premium, LocalDate startDate, LocalDate endDate) {
+        this.clientId = clientId;
         this.policyNumber = policyNumber;
         this.type = type;
         this.coverageAmount = coverageAmount;
@@ -34,15 +24,12 @@ public class InsurancePolicy {
         this.endDate = endDate;
     }
 
-    public InsurancePolicy() {
+    public UUID getClientId() {
+        return clientId;
     }
 
-    public UUID getInsuranceId() {
-        return insuranceId;
-    }
-
-    public void setInsuranceId(UUID insuranceId) {
-        this.insuranceId = insuranceId;
+    public void setClientId(UUID clientId) {
+        this.clientId = clientId;
     }
 
     public String getPolicyNumber() {
@@ -61,19 +48,19 @@ public class InsurancePolicy {
         this.type = type;
     }
 
-    public int getCoverageAmount() {
+    public String getCoverageAmount() {
         return coverageAmount;
     }
 
-    public void setCoverageAmount(int coverageAmount) {
+    public void setCoverageAmount(String coverageAmount) {
         this.coverageAmount = coverageAmount;
     }
 
-    public int getPremium() {
+    public String getPremium() {
         return premium;
     }
 
-    public void setPremium(int premium) {
+    public void setPremium(String premium) {
         this.premium = premium;
     }
 
@@ -91,13 +78,5 @@ public class InsurancePolicy {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
-    }
-
-    public Claim getInsuraceClaim() {
-        return insuraceClaim;
-    }
-
-    public void setInsuraceClaim(Claim insuraceClaim) {
-        this.insuraceClaim = insuraceClaim;
     }
 }
