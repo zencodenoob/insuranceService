@@ -1,5 +1,6 @@
 package com.insurance.restApp.api.request;
 
+
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -58,4 +59,6 @@ public class ClaimRequest {
     public void setClaimDate(LocalDate claimDate) {
         this.claimDate = claimDate;
     }
+
+
 }

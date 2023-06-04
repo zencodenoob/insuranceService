@@ -1,8 +1,11 @@
 package com.insurance.restApp.api.response;
 
+import com.insurance.restApp.api.request.InsuranceRequest;
+import com.insurance.restApp.entity.Client;
 import com.insurance.restApp.entity.InsurancePolicy;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,17 +18,46 @@ public class ClientResponse {
     private String email;
     private String phone;
 
-    private List<InsurancePolicy> insurancePolicyList;
+    private List<InsuranceResponse> insuranceResponseList;
 
     public ClientResponse(UUID id, String name, LocalDate dob, String address,
-                          String email, String phone, List<InsurancePolicy> insurancePolicyList) {
+                          String email, String phone, List<InsuranceResponse> insuranceResponseList) {
         Id = id;
         this.name = name;
         this.dob = dob;
         this.address = address;
         this.email = email;
         this.phone = phone;
-        this.insurancePolicyList = insurancePolicyList;
+        this.insuranceResponseList = insuranceResponseList;
+    }
+
+
+    public ClientResponse(Client client) {
+        this.Id = client.getClientId();
+        this.dob = client.getDob();
+        this.address = client.getAddress();
+        this.name = client.getName();
+        this.phone = client.getPhone();
+        this.email = client.getEmail();
+        if(client.getInsuranceList() != null){
+            List<InsuranceResponse> insuranceResponseList= new ArrayList<InsuranceResponse>();
+            for(InsurancePolicy insurance : client.getInsuranceList()){
+                InsuranceResponse response = new InsuranceResponse();
+                response.setInsuranceId(insurance.getInsuranceId());
+                response.setPolicyNumber(insurance.getPolicyNumber());
+                response.setCoverageAmount(insurance.getCoverageAmount());
+                response.setEndDate(insurance.getEndDate());
+                response.setPremium(insurance.getPremium());
+                response.setStartDate(insurance.getStartDate());
+                response.setType(insurance.getType());
+                insuranceResponseList.add(response);
+            }
+            this.setInsuranceResponseList(insuranceResponseList);
+        }
+
+    }
+
+    public ClientResponse() {
     }
 
     public UUID getId() {
@@ -76,11 +108,11 @@ public class ClientResponse {
         this.phone = phone;
     }
 
-    public List<InsurancePolicy> getInsurancePolicyList() {
-        return insurancePolicyList;
+    public List<InsuranceResponse> getInsuranceResponseList() {
+        return insuranceResponseList;
     }
 
-    public void setInsurancePolicyList(List<InsurancePolicy> insurancePolicyList) {
-        this.insurancePolicyList = insurancePolicyList;
+    public void setInsuranceResponseList(List<InsuranceResponse> insuranceResponseList) {
+        this.insuranceResponseList = insuranceResponseList;
     }
 }

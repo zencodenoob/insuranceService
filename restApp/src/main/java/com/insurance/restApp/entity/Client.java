@@ -1,7 +1,7 @@
 package com.insurance.restApp.entity;
 
+import com.insurance.restApp.api.request.InsuranceRequest;
 import jakarta.persistence.*;
-import org.springframework.boot.autoconfigure.web.WebProperties;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,7 +13,7 @@ public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "client_id")
+    @Column(name = "id")
     private UUID clientId;
     private String name;
     private LocalDate dob;

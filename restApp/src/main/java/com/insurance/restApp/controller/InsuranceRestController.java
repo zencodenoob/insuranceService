@@ -1,5 +1,6 @@
 package com.insurance.restApp.controller;
 
+import com.insurance.restApp.api.request.ClientRequest;
 import com.insurance.restApp.api.response.ClientResponse;
 import com.insurance.restApp.entity.Client;
 import com.insurance.restApp.service.InsuranceService;
@@ -7,14 +8,12 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.function.EntityResponse;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class InsuranceRestController {
@@ -26,18 +25,41 @@ public class InsuranceRestController {
         this.insuranceService = service;
     }
     @GetMapping({"/api/clients","/api/clients/{clientId}"})
-   ResponseEntity<List<ClientResponse>> getClients(@PathVariable(required = false,name = "clientId") String clientId){
-        List<Client> clients = insuranceService.getClients(clientId);
-        var responseList = mapToClientResponse(clients);
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseList);
-    }
+    ResponseEntity<List<ClientResponse>> getClients(@PathVariable(required = false,name = "clientId") String clientId){
 
-    private static List<ClientResponse> mapToClientResponse(List<Client> clients){
+        List<Client> clients = insuranceService.getClients(clientId);
         List<ClientResponse> responseList = new ArrayList<ClientResponse>();
         for (Client client : clients){
-            //map the clients
+            responseList.add(new ClientResponse(client));
         }
-        return  responseList;
+        return ResponseEntity.status(HttpStatus.OK).body(responseList);
+
+    }
+    @PostMapping("/api/clients")
+    ResponseEntity<ClientResponse> saveClient(@RequestBody ClientRequest request){
+        Client client = request.mapTOEntityClient();
+        client = insuranceService.addClient(client);
+        ClientResponse response = new ClientResponse(client);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+    @PutMapping("/api/clients")
+    ResponseEntity<ClientResponse> updateClient(@RequestBody ClientRequest request){
+        Client client = new Client();
+        client = insuranceService.getClient(request.getClientId());
+        client.setAddress(request.getAddress());
+        client.setDob(request.getDob());
+        client.setEmail(request.getEmail());
+        client.setName(request.getName());
+        client.setPhone(request.getPhone());
+        insuranceService.addClient(client);
+        ClientResponse response = new ClientResponse(client);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+    @DeleteMapping("/api/clients/{clientId}")
+    ResponseEntity<ClientResponse> removeClient(@PathVariable(name = "clientId")String id){
+        Client client = insuranceService.getClient(UUID.fromString(id));
+        insuranceService.removeClient(client);
+        return  ResponseEntity.status(HttpStatus.OK).body(new ClientResponse(client));
     }
 
 }

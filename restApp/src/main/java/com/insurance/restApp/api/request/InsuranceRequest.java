@@ -3,18 +3,32 @@ package com.insurance.restApp.api.request;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class LoanRequest {
+public class InsuranceRequest {
 
+
+    private UUID insuranceId;
     private UUID clientId;
     private String policyNumber;
     private String type;
-    private String coverageAmount;
-    private String premium;
+    private int coverageAmount;
+    private int premium;
     private LocalDate startDate;
     private LocalDate endDate;
 
-    public LoanRequest(UUID clientId, String policyNumber, String type, String coverageAmount,
-                       String premium, LocalDate startDate, LocalDate endDate) {
+    public InsuranceRequest(UUID insuranceId, UUID clientId, String policyNumber, String type, int coverageAmount,
+                            int premium, LocalDate startDate, LocalDate endDate) {
+        this.insuranceId = insuranceId;
+        this.clientId = clientId;
+        this.policyNumber = policyNumber;
+        this.type = type;
+        this.coverageAmount = coverageAmount;
+        this.premium = premium;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    public InsuranceRequest(UUID clientId, String policyNumber, String type, int coverageAmount,
+                            int premium, LocalDate startDate, LocalDate endDate) {
         this.clientId = clientId;
         this.policyNumber = policyNumber;
         this.type = type;
@@ -48,19 +62,19 @@ public class LoanRequest {
         this.type = type;
     }
 
-    public String getCoverageAmount() {
+    public int getCoverageAmount() {
         return coverageAmount;
     }
 
-    public void setCoverageAmount(String coverageAmount) {
+    public void setCoverageAmount(int coverageAmount) {
         this.coverageAmount = coverageAmount;
     }
 
-    public String getPremium() {
+    public int getPremium() {
         return premium;
     }
 
-    public void setPremium(String premium) {
+    public void setPremium(int premium) {
         this.premium = premium;
     }
 
@@ -78,5 +92,13 @@ public class LoanRequest {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public UUID getInsuranceId() {
+        return insuranceId;
+    }
+
+    public void setInsuranceId(UUID insuranceId) {
+        this.insuranceId = insuranceId;
     }
 }

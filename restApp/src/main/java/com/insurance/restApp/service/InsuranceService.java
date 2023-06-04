@@ -28,15 +28,18 @@ public class InsuranceService {
     }
 
     public List<Client> getClients(String clientId){
-        if (clientId.isEmpty()){
+        if (clientId == null){
             return clientRepo.findAll();
         }
         return clientRepo.findAllById(List.of(UUID.fromString(clientId)));
     }
+
     public Client addClient(Client client){
+
         return clientRepo.save(client);
     }
     public void removeClient(Client client){
+
         clientRepo.delete(client);
     }
     public List<InsurancePolicy> getInsurancePolicy(String insuranceId){
@@ -46,9 +49,11 @@ public class InsuranceService {
         return insuranceRepo.findAllById(List.of(UUID.fromString(insuranceId)));
     }
     public InsurancePolicy addInsurance(InsurancePolicy insurancePolicy){
+
         return insuranceRepo.save(insurancePolicy);
     }
     public void removeInsurance(InsurancePolicy insurancePolicy){
+
         insuranceRepo.delete(insurancePolicy);
     }
 
@@ -59,9 +64,15 @@ public class InsuranceService {
         return claimsRepo.findAllById(List.of(UUID.fromString(claimId)));
     }
     public Claim addClaim(Claim claim){
+
         return claimsRepo.save(claim);
     }
     public void removeClaim(Claim claim){
+
         claimsRepo.delete(claim);
+    }
+
+    public Client getClient(UUID clientId) {
+        return clientRepo.getById(clientId);
     }
 }

@@ -11,17 +11,29 @@ public class InsurancePolicy {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "insurance_id")
+    @Column(name = "id")
     private UUID insuranceId;
+
+    @Column(name = "policy_number")
     private String policyNumber;
+
+    @Column(name = "type")
     private String type;
+
+    @Column(name = "coverage_amount")
     private int coverageAmount;
+
+    @Column(name = "premium")
     private int premium;
+
+    @Column(name = "start_date")
     private LocalDate startDate;
+
+    @Column(name = "end_date")
     private LocalDate endDate;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "insurance_id")
+    @JoinColumn(name = "id")
     private Claim insuraceClaim;
 
     public InsurancePolicy(String policyNumber, String type,
