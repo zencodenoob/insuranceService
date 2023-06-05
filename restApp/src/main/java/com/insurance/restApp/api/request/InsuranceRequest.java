@@ -1,5 +1,7 @@
 package com.insurance.restApp.api.request;
 
+import com.insurance.restApp.entity.InsurancePolicy;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -36,6 +38,19 @@ public class InsuranceRequest {
         this.premium = premium;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public InsuranceRequest(String policyNumber, String type,
+                            int coverageAmount, int premium, LocalDate startDate, LocalDate endDate) {
+        this.policyNumber = policyNumber;
+        this.type = type;
+        this.coverageAmount = coverageAmount;
+        this.premium = premium;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    public InsuranceRequest() {
     }
 
     public UUID getClientId() {
@@ -100,5 +115,16 @@ public class InsuranceRequest {
 
     public void setInsuranceId(UUID insuranceId) {
         this.insuranceId = insuranceId;
+    }
+
+    public InsurancePolicy mapToEntityInsurancePolicy(){
+        InsurancePolicy policy = new InsurancePolicy();
+        policy.setCoverageAmount(this.coverageAmount);
+        policy.setPolicyNumber(this.policyNumber);
+        policy.setStartDate(this.startDate);
+        policy.setEndDate(this.endDate);
+        policy.setType(this.type);
+        policy.setPremium(this.premium);
+        return policy;
     }
 }

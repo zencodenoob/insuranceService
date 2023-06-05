@@ -109,7 +109,7 @@ public class InsurancePolicy {
         return insuraceClaim;
     }
 
-    public void setInsuraceClaim(Claim insuraceClaim) {
+    public void setInsuranceClaim(Claim insuraceClaim) {
         this.insuraceClaim = insuraceClaim;
     }
 }

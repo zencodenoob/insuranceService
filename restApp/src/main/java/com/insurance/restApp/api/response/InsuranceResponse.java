@@ -1,5 +1,8 @@
 package com.insurance.restApp.api.response;
 
+import com.insurance.restApp.entity.Claim;
+import com.insurance.restApp.entity.InsurancePolicy;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -13,8 +16,10 @@ public class InsuranceResponse {
     private LocalDate startDate;
     private LocalDate endDate;
 
+    private Claim claim;
+
     public InsuranceResponse(UUID insuranceId, String policyNumber, String type,
-                             int coverageAmount, int premium, LocalDate startDate, LocalDate endDate) {
+                             int coverageAmount, int premium, LocalDate startDate, LocalDate endDate, Claim claim) {
         this.insuranceId = insuranceId;
         this.policyNumber = policyNumber;
         this.type = type;
@@ -22,8 +27,21 @@ public class InsuranceResponse {
         this.premium = premium;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.claim = claim;
     }
 
+
+    public InsuranceResponse(InsurancePolicy policy) {
+
+        this.insuranceId =policy.getInsuranceId();
+        this.policyNumber = policy.getPolicyNumber();
+        this.type = policy.getType();
+        this.coverageAmount = policy.getCoverageAmount();
+        this.premium = policy.getPremium();
+        this.startDate = policy.getStartDate();
+        this.endDate = policy.getEndDate();
+        this.claim = policy.getInsuraceClaim();
+    }
     public InsuranceResponse() {
     }
 
@@ -81,5 +99,13 @@ public class InsuranceResponse {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public Claim getClaim() {
+        return claim;
+    }
+
+    public void setClaim(Claim claim) {
+        this.claim = claim;
     }
 }

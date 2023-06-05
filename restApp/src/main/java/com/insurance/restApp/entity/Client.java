@@ -101,4 +101,8 @@ public class Client {
     public void setInsuranceList(List<InsurancePolicy> insuranceList) {
         this.insuranceList = insuranceList;
     }
+
+    public void addToInsuranceList(InsurancePolicy policy) {
+        this.getInsuranceList().add(policy);
+    }
 }

@@ -129,7 +129,6 @@ public class ClientRequest {
             List<InsurancePolicy> insurancePolicyList = new ArrayList<InsurancePolicy>();
             for(InsuranceRequest request : insuranceRequestList){
                 InsurancePolicy policy = new InsurancePolicy();
-                policy.setInsuranceId(request.getInsuranceId());
                 policy.setPolicyNumber(request.getPolicyNumber());
                 policy.setCoverageAmount(request.getCoverageAmount());
                 policy.setEndDate(request.getEndDate());

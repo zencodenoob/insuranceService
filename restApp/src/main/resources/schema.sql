@@ -9,7 +9,7 @@ phone VARCHAR(15)
 CREATE TABLE insurance(
 id UUID PRIMARY KEY,
 policy_number VARCHAR(20),
-type VARCHAR(10),
+type VARCHAR(20),
 coverage_amount INTEGER,
 premium INTEGER,
 start_date DATE,

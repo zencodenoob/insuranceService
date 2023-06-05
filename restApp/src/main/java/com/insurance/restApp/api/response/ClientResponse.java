@@ -42,14 +42,7 @@ public class ClientResponse {
         if(client.getInsuranceList() != null){
             List<InsuranceResponse> insuranceResponseList= new ArrayList<InsuranceResponse>();
             for(InsurancePolicy insurance : client.getInsuranceList()){
-                InsuranceResponse response = new InsuranceResponse();
-                response.setInsuranceId(insurance.getInsuranceId());
-                response.setPolicyNumber(insurance.getPolicyNumber());
-                response.setCoverageAmount(insurance.getCoverageAmount());
-                response.setEndDate(insurance.getEndDate());
-                response.setPremium(insurance.getPremium());
-                response.setStartDate(insurance.getStartDate());
-                response.setType(insurance.getType());
+                InsuranceResponse response = new InsuranceResponse(insurance);
                 insuranceResponseList.add(response);
             }
             this.setInsuranceResponseList(insuranceResponseList);

@@ -1,23 +1,32 @@
 package com.insurance.restApp.api.request;
 
 
+import com.insurance.restApp.entity.Claim;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
 public class ClaimRequest {
     private UUID insuranceId;
-    private UUID clientId;
+
+    private UUID claimId;
     private String claimNumber;
     private String description;
     private LocalDate claimDate;
 
-    public ClaimRequest(UUID insuranceId, UUID clientId,
-                        String claimNumber, String description, LocalDate claimDate) {
+    private Boolean claimStatus;
+
+    public ClaimRequest(UUID insuranceId, String claimNumber,
+                        String description, LocalDate claimDate, Boolean claimStatus, UUID claimId) {
         this.insuranceId = insuranceId;
-        this.clientId = clientId;
         this.claimNumber = claimNumber;
         this.description = description;
         this.claimDate = claimDate;
+        this.claimStatus = claimStatus;
+        this.claimId = claimId;
+    }
+
+    public ClaimRequest() {
     }
 
     public UUID getInsuranceId() {
@@ -26,14 +35,6 @@ public class ClaimRequest {
 
     public void setInsuranceId(UUID insuranceId) {
         this.insuranceId = insuranceId;
-    }
-
-    public UUID getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(UUID clientId) {
-        this.clientId = clientId;
     }
 
     public String getClaimNumber() {
@@ -55,9 +56,34 @@ public class ClaimRequest {
     public LocalDate getClaimDate() {
         return claimDate;
     }
-
     public void setClaimDate(LocalDate claimDate) {
         this.claimDate = claimDate;
+    }
+
+    public boolean isClaimStatus() {
+        return claimStatus;
+    }
+
+    public void setClaimStatus(Boolean claimStatus) {
+        this.claimStatus = claimStatus;
+    }
+
+    public UUID getClaimId() {
+        return claimId;
+    }
+
+    public void setClaimId(UUID claimId) {
+        this.claimId = claimId;
+    }
+
+    public Claim mapToEntityClaim(){
+        Claim claim = new Claim();
+        claim.setClaimDate(this.claimDate);
+        claim.setClaimNumber(this.claimNumber);
+        claim.setDescription(this.description);
+        if(this.claimStatus == null) claim.setClaimStatus(false);
+        else claim.setClaimStatus(this.claimStatus);
+        return claim;
     }
 
 

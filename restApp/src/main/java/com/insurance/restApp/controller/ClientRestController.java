@@ -4,26 +4,25 @@ import com.insurance.restApp.api.request.ClientRequest;
 import com.insurance.restApp.api.response.ClientResponse;
 import com.insurance.restApp.entity.Client;
 import com.insurance.restApp.service.InsuranceService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.function.EntityResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-public class InsuranceRestController {
+public class ClientRestController {
 
     private InsuranceService insuranceService;
 
     @Autowired
-    public InsuranceRestController(InsuranceService service){
+    public ClientRestController(InsuranceService service){
         this.insuranceService = service;
     }
+
     @GetMapping({"/api/clients","/api/clients/{clientId}"})
     ResponseEntity<List<ClientResponse>> getClients(@PathVariable(required = false,name = "clientId") String clientId){
 
@@ -61,5 +60,7 @@ public class InsuranceRestController {
         insuranceService.removeClient(client);
         return  ResponseEntity.status(HttpStatus.OK).body(new ClientResponse(client));
     }
+
+    
 
 }
