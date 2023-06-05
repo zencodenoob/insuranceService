@@ -33,8 +33,19 @@ public class InsurancePolicy {
     private LocalDate endDate;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "claim_id")
     private Claim insuraceClaim;
+
+    public InsurancePolicy(String policyNumber, String type, int coverageAmount, int premium,
+                           LocalDate startDate, LocalDate endDate, Claim insuraceClaim) {
+        this.policyNumber = policyNumber;
+        this.type = type;
+        this.coverageAmount = coverageAmount;
+        this.premium = premium;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.insuraceClaim = insuraceClaim;
+    }
 
     public InsurancePolicy(String policyNumber, String type,
                            int coverageAmount, int premium, LocalDate startDate, LocalDate endDate) {

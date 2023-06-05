@@ -7,6 +7,7 @@ import com.insurance.restApp.entity.Claim;
 import com.insurance.restApp.entity.Client;
 import com.insurance.restApp.entity.InsurancePolicy;
 import com.insurance.restApp.service.InsuranceService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ public class ClaimsController {
 
     private InsuranceService insuranceService;
 
+    @Autowired
     public ClaimsController(InsuranceService insuranceService) {
         this.insuranceService = insuranceService;
     }
@@ -40,8 +42,8 @@ public class ClaimsController {
         Claim claim = request.mapToEntityClaim();
         InsurancePolicy policy = insuranceService.getInsurance(request.getInsuranceId());
         policy.setInsuranceClaim(claim);
-        InsurancePolicy insurance = insuranceService.addInsurance(policy);
-        InsuranceResponse response = new InsuranceResponse(insurance);
+        policy = insuranceService.addInsurance(policy);
+        InsuranceResponse response = new InsuranceResponse(policy);
         return  ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
