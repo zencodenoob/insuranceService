@@ -25,3 +25,12 @@ end_date DATE,
 client_id UUID REFERENCES clients,
 claim_id UUID REFERENCES claims
 );
+CREATE TABLE users(
+username VARCHAR(50) PRIMARY KEY,
+password VARCHAR(50),
+enabled TINYINT
+);
+CREATE TABLE authorities(
+username VARCHAR(50) REFERENCES users,
+authority VARCHAR(50)
+);
