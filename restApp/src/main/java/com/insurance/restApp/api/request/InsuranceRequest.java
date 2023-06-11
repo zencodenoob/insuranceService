@@ -1,6 +1,9 @@
 package com.insurance.restApp.api.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.insurance.restApp.entity.InsurancePolicy;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.Range;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -8,13 +11,28 @@ import java.util.UUID;
 public class InsuranceRequest {
 
 
+
     private UUID insuranceId;
+
     private UUID clientId;
+
+    @Size(min = 9,max = 15)
     private String policyNumber;
+
+    @NotNull
     private String type;
+
+    @Range(min = 50000, max = 10000000)
     private int coverageAmount;
+
+
+    @Min(1000)
     private int premium;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
     public InsuranceRequest(UUID insuranceId, UUID clientId, String policyNumber, String type, int coverageAmount,

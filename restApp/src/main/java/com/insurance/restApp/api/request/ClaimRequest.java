@@ -1,17 +1,29 @@
 package com.insurance.restApp.api.request;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.insurance.restApp.entity.Claim;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 public class ClaimRequest {
+
+    @NotNull
     private UUID insuranceId;
 
     private UUID claimId;
+    @Pattern(regexp = "^[A-Za-z0-9]{8,20}$")
     private String claimNumber;
+
+    @Size(max = 60)
     private String description;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate claimDate;
 
     private Boolean claimStatus;

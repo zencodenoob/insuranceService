@@ -1,7 +1,11 @@
 package com.insurance.restApp.api.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.insurance.restApp.entity.Client;
 import com.insurance.restApp.entity.InsurancePolicy;
+import com.insurance.restApp.exception.Age;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,12 +15,26 @@ import java.util.UUID;
 public class ClientRequest {
 
     private UUID clientId;
+
+    @NotNull
+    @Size(max = 50)
     private String name;
+
+    @Age(min = 10,max = 80)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dob;
+
+    @Size(max = 100)
+    @NotNull
     private String address;
+
+    @Email
     private String email;
+
+    @Pattern(regexp = "^[0-9+]{10,15}")
     private String phone;
 
+    @Valid
     private List<InsuranceRequest> insuranceRequestList;
 
     public ClientRequest(UUID clientId, String name, LocalDate dob, String address, String email,

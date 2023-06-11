@@ -3,6 +3,9 @@ package com.insurance.restApp.service;
 import com.insurance.restApp.entity.Claim;
 import com.insurance.restApp.entity.Client;
 import com.insurance.restApp.entity.InsurancePolicy;
+import com.insurance.restApp.exception.InvalidClaimsException;
+import com.insurance.restApp.exception.InvalidClientException;
+import com.insurance.restApp.exception.InvalidPolicyException;
 import com.insurance.restApp.repository.ClaimsRepository;
 import com.insurance.restApp.repository.ClientRepository;
 import com.insurance.restApp.repository.InsuranceRepository;
@@ -31,7 +34,14 @@ public class InsuranceService {
         if (clientId == null){
             return clientRepo.findAll();
         }
-        return clientRepo.findAllById(List.of(UUID.fromString(clientId)));
+        try{
+            List<Client> clientList = clientRepo.findAllById(List.of(UUID.fromString(clientId)));
+            if (clientList.isEmpty()) throw new Exception("");
+            return clientList;
+        }
+        catch (Exception e) {
+            throw new InvalidClientException("Invalid Id");
+        }
     }
 
     public Client addClient(Client client){
@@ -42,11 +52,17 @@ public class InsuranceService {
 
         clientRepo.delete(client);
     }
-    public List<InsurancePolicy> getInsurancePolicy(String insuranceId){
+    public List<InsurancePolicy> getInsurancePolicy(String insuranceId) throws InvalidPolicyException {
         if (insuranceId == null){
             return insuranceRepo.findAll();
         }
-        return insuranceRepo.findAllById(List.of(UUID.fromString(insuranceId)));
+        try{
+            List<InsurancePolicy> policyList = insuranceRepo.findAllById(List.of(UUID.fromString(insuranceId)));
+            if(policyList.isEmpty()) throw new Exception("");
+            return policyList;}
+        catch (Exception e){
+            throw new InvalidPolicyException("Invalid Insurance Id");
+        }
     }
     public InsurancePolicy addInsurance(InsurancePolicy insurancePolicy){
 
@@ -57,11 +73,18 @@ public class InsuranceService {
         insuranceRepo.delete(insurancePolicy);
     }
 
-    public List<Claim> getClaims(String claimId){
+    public List<Claim> getClaims(String claimId) throws InvalidClaimsException{
         if (claimId == null){
             return claimsRepo.findAll();
         }
-        return claimsRepo.findAllById(List.of(UUID.fromString(claimId)));
+        try {
+            List<Claim> claimList = claimsRepo.findAllById(List.of(UUID.fromString(claimId)));
+            if(claimList.isEmpty()) throw new Exception("");
+            return claimList;
+        }
+        catch (Exception e){
+            throw new InvalidClaimsException("Invalid Claim Id");
+        }
     }
     public Claim addClaim(Claim claim){
 
@@ -72,15 +95,36 @@ public class InsuranceService {
         claimsRepo.delete(claim);
     }
 
-    public Client getClient(UUID clientId) {
-        return clientRepo.getById(clientId);
+    public Client getClient(UUID clientId) throws  InvalidClientException{
+        try{
+            Client client = clientRepo.getById(clientId);
+            if(client.getName() == null) throw new Exception("");
+            return client;
+        }
+        catch (Exception e){
+            throw new InvalidClientException("Invalid Client Id");
+        }
     }
 
-    public InsurancePolicy getInsurance(UUID insuranceId) {
-        return insuranceRepo.getById(insuranceId);
+    public InsurancePolicy getInsurance(UUID insuranceId) throws InvalidPolicyException{
+        try{
+            InsurancePolicy policy = insuranceRepo.getById(insuranceId);
+            if (policy.getPolicyNumber() == null) throw new Exception("");
+            return policy;
+        }
+        catch (Exception e){
+            throw new InvalidPolicyException("Invalid Insurance Id");
+        }
     }
 
-    public Claim getClaim(UUID claimId) {
-        return claimsRepo.getById(claimId);
+    public Claim getClaim(UUID claimId) throws InvalidClaimsException{
+        try {
+            Claim claim = claimsRepo.getById(claimId);
+            if(claim.getClaimNumber() == null) throw new Exception("");
+            return claim;
+        }
+        catch (Exception e){
+            throw new InvalidClaimsException("Invalid Claim Id");
+        }
     }
 }

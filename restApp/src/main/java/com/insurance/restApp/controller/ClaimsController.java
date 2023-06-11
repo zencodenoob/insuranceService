@@ -7,6 +7,7 @@ import com.insurance.restApp.entity.Claim;
 import com.insurance.restApp.entity.Client;
 import com.insurance.restApp.entity.InsurancePolicy;
 import com.insurance.restApp.service.InsuranceService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -38,7 +40,7 @@ public class ClaimsController {
     }
 
     @PostMapping("/api/claims")
-    ResponseEntity<InsuranceResponse> setClaim(@RequestBody ClaimRequest request){
+    ResponseEntity<InsuranceResponse> setClaim(@RequestBody @Valid ClaimRequest request){
         Claim claim = request.mapToEntityClaim();
         InsurancePolicy policy = insuranceService.getInsurance(request.getInsuranceId());
         policy.setInsuranceClaim(claim);
@@ -48,13 +50,20 @@ public class ClaimsController {
     }
 
     @PutMapping("/api/claims")
-    ResponseEntity<ClaimsResponse> updateClaim(@RequestBody ClaimRequest request){
+    ResponseEntity<ClaimsResponse> updateClaim(@RequestBody @Valid ClaimRequest request){
         Claim claim = insuranceService.getClaim(request.getClaimId());
         claim.setClaimStatus(request.isClaimStatus());
         claim.setClaimNumber(request.getClaimNumber());
         claim.setClaimDate(request.getClaimDate());
         claim.setDescription(request.getDescription());
         claim = insuranceService.addClaim(claim);
+        return ResponseEntity.status(HttpStatus.OK).body(new ClaimsResponse(claim));
+    }
+    @DeleteMapping("/api/claims/{claimId}")
+    ResponseEntity<ClaimsResponse> deleteClaim(@PathVariable UUID claimId)
+    {
+        Claim claim = insuranceService.getClaim(claimId);
+        insuranceService.removeClaim(claim);
         return ResponseEntity.status(HttpStatus.OK).body(new ClaimsResponse(claim));
     }
 }

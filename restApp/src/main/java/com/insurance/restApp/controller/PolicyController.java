@@ -6,6 +6,7 @@ import com.insurance.restApp.api.response.InsuranceResponse;
 import com.insurance.restApp.entity.Client;
 import com.insurance.restApp.entity.InsurancePolicy;
 import com.insurance.restApp.service.InsuranceService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ public class PolicyController {
         return ResponseEntity.status(HttpStatus.OK).body(responseList);
     }
     @PostMapping("/api/insurance")
-    ResponseEntity<ClientResponse> addInsurance(@RequestBody InsuranceRequest request){
+    ResponseEntity<ClientResponse> addInsurance(@RequestBody @Valid InsuranceRequest request){
         InsurancePolicy policy = request.mapToEntityInsurancePolicy();
         UUID clientId = request.getClientId();
         Client client = insuranceService.getClient(clientId);
@@ -46,7 +47,7 @@ public class PolicyController {
 
     @PutMapping("/api/insurance")
     ResponseEntity<InsuranceResponse> updateInsurance(@RequestBody
-                                                      InsuranceRequest request){
+                                                      @Valid InsuranceRequest request){
         InsurancePolicy policy = insuranceService.getInsurance(request.getInsuranceId());
         policy.setPolicyNumber(request.getPolicyNumber());
         policy.setType(request.getType());

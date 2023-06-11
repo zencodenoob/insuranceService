@@ -1,6 +1,6 @@
 CREATE TABLE clients(
 id UUID PRIMARY KEY,
-name VARCHAR(100),
+name VARCHAR(50),
 dob DATE,
 address VARCHAR(100),
 email VARCHAR(30),

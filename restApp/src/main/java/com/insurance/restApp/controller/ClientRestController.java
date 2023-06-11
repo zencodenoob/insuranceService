@@ -4,6 +4,7 @@ import com.insurance.restApp.api.request.ClientRequest;
 import com.insurance.restApp.api.response.ClientResponse;
 import com.insurance.restApp.entity.Client;
 import com.insurance.restApp.service.InsuranceService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,14 +36,14 @@ public class ClientRestController {
 
     }
     @PostMapping("/api/clients")
-    ResponseEntity<ClientResponse> saveClient(@RequestBody ClientRequest request){
+    ResponseEntity<ClientResponse> saveClient(@RequestBody @Valid ClientRequest request){
         Client client = request.mapTOEntityClient();
         client = insuranceService.addClient(client);
         ClientResponse response = new ClientResponse(client);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     @PutMapping("/api/clients")
-    ResponseEntity<ClientResponse> updateClient(@RequestBody ClientRequest request){
+    ResponseEntity<ClientResponse> updateClient(@RequestBody @Valid ClientRequest request){
         Client client = new Client();
         client = insuranceService.getClient(request.getClientId());
         client.setAddress(request.getAddress());
